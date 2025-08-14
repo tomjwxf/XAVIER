@@ -1,0 +1,28 @@
+{
+  "version": "1.1",
+  "batch_id": "2025-08-12T06:20Z#obs",
+  "corridor": "USDC-Base↔USDC-Base",
+  "participants": [
+    { "entity_id": "blinded#C", "wallet_tag": "C2", "notional": 500000, "fee_bps": 0.0 },
+    { "entity_id": "blinded#D", "wallet_tag": "D7", "notional": 500000, "fee_bps": 0.0 }
+  ],
+  "timestamps": {
+    "observed_at": "2025-08-12T06:20:04Z",
+    "finality_at": "2025-08-12T06:20:15Z",
+    "receipt_emitted_at": "2025-08-12T06:20:22Z"
+  },
+  "receipt_emission_ms": 7000,
+  "finality_ref": { "chain": "Base", "height": "12345789", "tx": "0xdef456..." },
+  "policy_hooks": {
+    "whitelist": true,
+    "cap_check": true,
+    "tr_message_id_ref": "TR-xyz999",
+    "sanctions_ref": "KYT-aaa111"
+  },
+  "fairness": { "queue_position": null, "vrf_seed_ref": null, "ordering_proof": null },
+  "incident_code": null,
+  "hash_anchor": null,
+  "sig": "ed25519:BASE64_SIGNATURE",
+  "pubkey_ref": "coordinator_v1_ed25519",
+  "revocation_list_ref": "https://example.com/keys/rl.json"
+}

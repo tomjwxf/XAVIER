@@ -1,0 +1,56 @@
+{
+  "version": "1.1",
+  "batch_id": "2025-08-14T05:14Z#obs",
+  "corridor": "USDC-Base\u2194USDC-Base",
+  "participants": [
+    {
+      "entity_id": "blinded#A",
+      "wallet_tag": "A1",
+      "notional_cents": 125000000,
+      "fee_bps": 0.0
+    },
+    {
+      "entity_id": "blinded#B",
+      "wallet_tag": "B3",
+      "notional_cents": 125000000,
+      "fee_bps": 0.0
+    }
+  ],
+  "timestamps": {
+    "observed_at": "2025-08-14T05:19:27Z",
+    "finality_at": "2025-08-14T05:19:40Z",
+    "receipt_emitted_at": "2025-08-14T05:19:42Z"
+  },
+  "receipt_emission_ms": 2500,
+  "finality_ref": {
+    "chain": "Base",
+    "height": "22345683",
+    "tx": "0xdeadbeef0005"
+  },
+  "policy_hooks": {
+    "whitelist": {
+      "checked_at": "2025-08-14T05:19:27Z",
+      "status": "pass"
+    },
+    "cap_check": {
+      "checked_at": "2025-08-14T05:19:27Z",
+      "status": "pass"
+    },
+    "tr_message_id_ref": "TR-1005",
+    "sanctions_ref": "KYT-2005"
+  },
+  "fairness": {
+    "queue_position": null,
+    "vrf_seed_ref": null,
+    "ordering_proof": null
+  },
+  "incident_code": null,
+  "revocation_list_ref": "keys/rl.json",
+  "hash_anchor": "59917dab40eeb8b85374533a736f37205ed86b2a478fb02aeb624dacea003581",
+  "signature": {
+    "alg": "ed25519",
+    "pubkey_ref": "coordinator_v1_ed25519",
+    "sig": "EW4riqJ4AXhxg0gqtBg6Fu3lpNSkykG3rjm9LZg2b3bMxEazSB6GVGwUGuf1SIq38dIcyfggknDosu0uPIs8Cw==",
+    "signed_at": "2025-08-14T05:19:42Z"
+  }
+}

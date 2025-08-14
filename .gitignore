@@ -3,6 +3,8 @@
 __pycache__/
 *.pyc
 
-# Keys and secrets
-keys/
-*.secret
+# NEVER commit private keys
+keys/private_*.key
+*.pem
+*.der
+

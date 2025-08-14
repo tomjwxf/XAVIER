@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Xavier Settlement Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "batch_id",
+    "corridor",
+    "participants",
+    "timestamps",
+    "finality_ref",
+    "policy_hooks",
+    "fairness",
+    "sig",
+    "pubkey_ref",
+    "revocation_list_ref"
+  ],
+  "properties": {
+    "version": { "type": "string", "enum": ["1.1"] },
+    "batch_id": { "type": "string", "minLength": 1 },
+    "corridor": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9-]+↔[A-Za-z0-9-]+$"
+    },
+    "participants": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["entity_id", "wallet_tag", "notional", "fee_bps"],
+        "properties": {
+          "entity_id": { "type": "string", "minLength": 1 },
+          "wallet_tag": { "type": "string", "minLength": 1 },
+          "notional": { "type": "number", "minimum": 0 },
+          "fee_bps": { "type": "number", "minimum": 0, "maximum": 1000 }
+        }
+      }
+    },
+    "timestamps": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["observed_at", "finality_at", "receipt_emitted_at"],
+      "properties": {
+        "observed_at": { "type": "string", "format": "date-time" },
+        "finality_at": { "type": "string", "format": "date-time" },
+        "receipt_emitted_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "receipt_emission_ms": { "type": ["integer", "null"], "minimum": 0 },
+    "finality_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["chain", "height", "tx"],
+      "properties": {
+        "chain": { "type": "string", "minLength": 1 },
+        "height": { "type": "string", "minLength": 1 },
+        "tx": { "type": "string", "minLength": 1 }
+      }
+    },
+    "policy_hooks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["whitelist", "cap_check"],
+      "properties": {
+        "whitelist": { "type": "boolean" },
+        "cap_check": { "type": "boolean" },
+        "tr_message_id_ref": { "type": ["string", "null"] },
+        "sanctions_ref": { "type": ["string", "null"] }
+      }
+    },
+    "fairness": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "queue_position": { "type": ["integer", "null"], "minimum": 0 },
+        "vrf_seed_ref": { "type": ["string", "null"] },
+        "ordering_proof": { "type": ["string", "null"] }
+      }
+    },
+    "incident_code": {
+      "type": ["string", "null"],
+      "enum": [
+        null,
+        "SKIP_NO_PERMITS",
+        "FAIL_APPROVAL",
+        "CHAIN_FINALITY",
+        "ROUTE_DEGRADED",
+        "RELAY_DEGRADED",
+        "CAP_HIT",
+        "OP_ABORT",
+        "POLICY_BLOCK",
+        "TRAVEL_RULE_UNAVAILABLE"
+      ]
+    },
+    "hash_anchor": { "type": ["string", "null"] },
+    "sig": {
+      "type": "string",
+      "pattern": "^ed25519:[A-Za-z0-9+/=]+$"
+    },
+    "pubkey_ref": {
+      "type": "string",
+      "enum": ["coordinator_v1_ed25519"]
+    },
+    "revocation_list_ref": { "type": "string" }
+  }
+}

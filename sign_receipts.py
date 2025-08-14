@@ -17,7 +17,7 @@ def sign_file(path, sk: SigningKey):
     ts = r.get("timestamps", {})
     if ts and "finality_at" in ts and "receipt_emitted_at" in ts and not r.get("receipt_emission_ms"):
         from datetime import datetime
-        def to_ms(s): 
+        def to_ms(s):
             return int(datetime.fromisoformat(s.replace("Z","+00:00")).timestamp() * 1000)
         r["receipt_emission_ms"] = to_ms(ts["receipt_emitted_at"]) - to_ms(ts["finality_at"])
 

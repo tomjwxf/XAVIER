@@ -1,0 +1,258 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://xavier.example/schema/receipt.schema.v1.1.json",
+  "title": "Xavier Receipt v1.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "batch_id",
+    "corridor",
+    "participants",
+    "timestamps",
+    "receipt_emission_ms",
+    "finality_ref",
+    "policy_hooks",
+    "fairness",
+    "incident_code",
+    "hash_anchor",
+    "signature"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "1.1"
+    },
+    "batch_id": {
+      "type": "string",
+      "pattern": "^\\\\d{4}-\\\\d{2}-\\\\d{2}T\\\\d{2}:\\\\d{2}Z#(obs|win-[A-Za-z0-9_-]+)$"
+    },
+    "corridor": {
+      "type": "string",
+      "enum": [
+        "USDC-Base\u2194USDC-Base"
+      ]
+    },
+    "participants": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "entity_id",
+          "wallet_tag",
+          "notional_cents",
+          "fee_bps"
+        ],
+        "properties": {
+          "entity_id": {
+            "type": "string",
+            "pattern": "^blinded#\\\\w+$"
+          },
+          "wallet_tag": {
+            "type": "string"
+          },
+          "notional_cents": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "fee_bps": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 100.0
+          }
+        }
+      }
+    },
+    "timestamps": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "observed_at",
+        "finality_at",
+        "receipt_emitted_at"
+      ],
+      "properties": {
+        "observed_at": {
+          "type": "string",
+          "pattern": "^\\\\d{4}-\\\\d{2}-\\\\d{2}T\\\\d{2}:\\\\d{2}:\\\\d{2}Z$"
+        },
+        "finality_at": {
+          "type": "string",
+          "pattern": "^\\\\d{4}-\\\\d{2}-\\\\d{2}T\\\\d{2}:\\\\d{2}:\\\\d{2}Z$"
+        },
+        "receipt_emitted_at": {
+          "type": "string",
+          "pattern": "^\\\\d{4}-\\\\d{2}-\\\\d{2}T\\\\d{2}:\\\\d{2}:\\\\d{2}Z$"
+        }
+      }
+    },
+    "receipt_emission_ms": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "finality_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "chain",
+        "height",
+        "tx"
+      ],
+      "properties": {
+        "chain": {
+          "type": "string",
+          "enum": [
+            "Base"
+          ]
+        },
+        "height": {
+          "type": "string"
+        },
+        "tx": {
+          "type": "string"
+        }
+      }
+    },
+    "policy_hooks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "whitelist",
+        "cap_check",
+        "tr_message_id_ref",
+        "sanctions_ref"
+      ],
+      "properties": {
+        "whitelist": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "checked_at",
+            "status"
+          ],
+          "properties": {
+            "checked_at": {
+              "type": "string",
+              "pattern": "^\\\\d{4}-\\\\d{2}-\\\\d{2}T\\\\d{2}:\\\\d{2}:\\\\d{2}Z$"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "pass",
+                "fail"
+              ]
+            }
+          }
+        },
+        "cap_check": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "checked_at",
+            "status"
+          ],
+          "properties": {
+            "checked_at": {
+              "type": "string",
+              "pattern": "^\\\\d{4}-\\\\d{2}-\\\\d{2}T\\\\d{2}:\\\\d{2}:\\\\d{2}Z$"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "pass",
+                "fail"
+              ]
+            }
+          }
+        },
+        "tr_message_id_ref": {
+          "type": "string"
+        },
+        "sanctions_ref": {
+          "type": "string"
+        }
+      }
+    },
+    "fairness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "queue_position",
+        "vrf_seed_ref",
+        "ordering_proof"
+      ],
+      "properties": {
+        "queue_position": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "vrf_seed_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ordering_proof": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "incident_code": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        null,
+        "SKIP_NO_PERMITS",
+        "FAIL_APPROVAL",
+        "ROUTE_DEGRADED",
+        "RELAY_DEGRADED",
+        "POLICY_BLOCK",
+        "TRAVEL_RULE_UNAVAILABLE"
+      ]
+    },
+    "hash_anchor": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "signature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "alg",
+        "pubkey_ref",
+        "sig",
+        "signed_at"
+      ],
+      "properties": {
+        "alg": {
+          "type": "string",
+          "const": "ed25519"
+        },
+        "pubkey_ref": {
+          "type": "string"
+        },
+        "sig": {
+          "type": "string"
+        },
+        "signed_at": {
+          "type": "string",
+          "pattern": "^\\\\d{4}-\\\\d{2}-\\\\d{2}T\\\\d{2}:\\\\d{2}:\\\\d{2}Z$"
+        }
+      }
+    },
+    "revocation_list_ref": {
+      "type": "string"
+    }
+  }
+}
